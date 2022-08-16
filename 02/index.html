@@ -43,13 +43,61 @@
       //四分之一扇形
       // var box = new THREE.CircleGeometry(50, 40, 0, 0.5 * Math.PI);
 
+      var texture = new THREE.TextureLoader().load("./1.jpg"); //加载纹理贴图
       var material = new THREE.MeshLambertMaterial({
-        color: 0x0000ff,
+        //贴图通过材质添加给几何体
+        map: texture, //给纹理属性map赋值
+        side: THREE.DoubleSide, //两面可见
+      }); //材质对象
+      // var material = new THREE.MeshLambertMaterial({
+      //   color: 0x00ff00,
+      //   //THREE.DoubleSide设置两面均显示
+      //   side: THREE.DoubleSide,
+      // }); //材质对象
+      var mesh = new THREE.Mesh(box, material); //网格模型对象
+      scene.add(mesh); //网格模型添加到场景中
+
+      //球体(半径60，细分数40,40)
+      var box2 = new THREE.SphereGeometry(60, 40, 40);
+
+      var material2 = new THREE.MeshLambertMaterial({
+        color: new THREE.Color(0x3f7b9d),
+        wireframe: true,
+        side: THREE.DoubleSide,
+      }); //材质对象
+      var mesh2 = new THREE.Mesh(box2, material2); //网格模型对象
+      mesh2.translateY(110); //沿着x轴正方向平移距离100
+      scene.add(mesh2); //网格模型添加到场景中
+
+      //圆台(顶部半径20，底部半径40，高度100，圆周细分数40)
+      var box3 = new THREE.CylinderGeometry(20, 40, 100, 40);
+
+      var material3 = new THREE.MeshLambertMaterial({
+        color: 0x00ffff,
+        // wireframe: true,
+
         //THREE.DoubleSide设置两面均显示
         side: THREE.DoubleSide,
       }); //材质对象
-      var mesh = new THREE.Mesh(box, material); //网格模型对象
-      scene.add(mesh); //网格模型添加到场景中
+      var mesh3 = new THREE.Mesh(box3, material3); //网格模型对象
+      mesh3.translateX(110); //沿着x轴正方向平移距离100
+      scene.add(mesh3); //网格模型添加到场景中
+
+      //圆柱(顶部、底部半径均为40，高度100，圆周细分数40)
+      var box4 = new THREE.CylinderGeometry(40, 40, 100, 40);
+
+      var material4 = new THREE.MeshLambertMaterial({
+        color: 0xff00ff,
+        // wireframe: true,
+        opacity: 0.5, //透明度属性
+        transparent: true, //开启透明度计算
+        //THREE.DoubleSide设置两面均显示
+        side: THREE.DoubleSide,
+      }); //材质对象
+      var mesh4 = new THREE.Mesh(box4, material4); //网格模型对象
+      mesh4.translateZ(110); //沿着x轴正方向平移距离100
+      scene.add(mesh4); //网格模型添加到场景中
+
       /**
        * 光源设置
        */
@@ -84,7 +132,12 @@
       //执行渲染操作
       function render() {
         renderer.render(scene, camera); //执行渲染操作
-        if (!disabledRate) mesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+        if (!disabledRate) {
+          mesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+          mesh2.rotateZ(-0.01);
+          mesh3.rotateX(0.01);
+          mesh4.rotateZ(0.01);
+        }
         requestAnimationFrame(render); //请求再次执行渲染函数render
       }
       render();
