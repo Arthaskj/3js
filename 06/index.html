@@ -18,6 +18,7 @@
     <script src="../examples//js/loaders//OBJLoader.js"></script>
     <script src="../examples//js/loaders/MTLLoader.js"></script>
     <script src="../examples//js/loaders/FBXLoader.js"></script>
+    <script src="../examples//js/loaders/GLTFLoader.js"></script>
   </head>
 
   <body>
@@ -42,6 +43,7 @@
       //stl加载完成后等待执行的函数
       function obj(object3D) {
         object3D.scale.set(100, 100, 100); //放大object3D对象
+        object3D.translateY(200);
         // var material = new THREE.MeshLambertMaterial({ color: 0xff00ff }); //材质对象
         // object3D.children.forEach(function (child) {
         //   child.material = material; //object3D对象的子对象网格模型赋予材质对象
@@ -50,9 +52,9 @@
       }
 
       var loader2 = new THREE.FBXLoader(); //创建obj模型加载器对象
-      loader2.load("1.fbx", obj); //加载obj完成后执行函数stl()
+      loader2.load("1.fbx", obj2); //加载obj完成后执行函数stl()
       //stl加载完成后等待执行的函数
-      function obj(object3D) {
+      function obj2(object3D) {
         object3D.traverse(function (child) {
           if (child.isMesh) {
             child.castShadow = true;
@@ -60,6 +62,14 @@
           }
         });
         scene.add(object3D); //网格模型添加到场景中
+      }
+
+      var loader3 = new THREE.GLTFLoader(); //创建obj模型加载器对象
+      loader3.load("1.glb", obj3); //加载obj完成后执行函数stl()
+      //stl加载完成后等待执行的函数
+      function obj3(object3D) {
+        object3D.scene.scale.set(700, 700, 700);
+        scene.add(object3D.scene); //网格模型添加到场景中
       }
 
       /**
