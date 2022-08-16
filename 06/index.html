@@ -12,8 +12,12 @@
 
     <!--引入three.js三维引擎-->
     <script src="../three.min.js"></script>
+    <script src="../fflate.min.js"></script>
     <!--引入轨道控件OrbitControls.js-->
     <script src="../examples//js//controls/OrbitControls.js"></script>
+    <script src="../examples//js/loaders//OBJLoader.js"></script>
+    <script src="../examples//js/loaders/MTLLoader.js"></script>
+    <script src="../examples//js/loaders/FBXLoader.js"></script>
   </head>
 
   <body>
@@ -22,13 +26,42 @@
        * 创建场景对象
        */
       var scene = new THREE.Scene();
+      // /**
+      //  * 创建网格模型
+      //  */
+      // var box = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象
+      // var material = new THREE.MeshLambertMaterial({ color: 0x0000ff }); //材质对象
+      // var mesh = new THREE.Mesh(box, material); //网格模型对象
+      // scene.add(mesh); //网格模型添加到场景中
+
       /**
-       * 创建网格模型
+       * 加载立方体obj文件，自定义材质的对象，生成网格模型
        */
-      var box = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象
-      var material = new THREE.MeshLambertMaterial({ color: 0x0000ff }); //材质对象
-      var mesh = new THREE.Mesh(box, material); //网格模型对象
-      scene.add(mesh); //网格模型添加到场景中
+      var loader = new THREE.OBJLoader(); //创建obj模型加载器对象
+      loader.load("1.obj", obj); //加载obj完成后执行函数stl()
+      //stl加载完成后等待执行的函数
+      function obj(object3D) {
+        object3D.scale.set(100, 100, 100); //放大object3D对象
+        // var material = new THREE.MeshLambertMaterial({ color: 0xff00ff }); //材质对象
+        // object3D.children.forEach(function (child) {
+        //   child.material = material; //object3D对象的子对象网格模型赋予材质对象
+        // });
+        scene.add(object3D); //网格模型添加到场景中
+      }
+
+      var loader2 = new THREE.FBXLoader(); //创建obj模型加载器对象
+      loader2.load("1.fbx", obj); //加载obj完成后执行函数stl()
+      //stl加载完成后等待执行的函数
+      function obj(object3D) {
+        object3D.traverse(function (child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+        scene.add(object3D); //网格模型添加到场景中
+      }
+
       /**
        * 光源设置
        */
@@ -63,7 +96,7 @@
       //执行渲染操作
       function render() {
         renderer.render(scene, camera); //执行渲染操作
-        if (!disabledRate) mesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
+        // if (!disabledRate) mesh.rotateY(0.01); //每次绕y轴旋转0.01弧度
         requestAnimationFrame(render); //请求再次执行渲染函数render
       }
       render();
