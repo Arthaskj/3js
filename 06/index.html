@@ -51,6 +51,9 @@
         scene.add(object3D); //网格模型添加到场景中
       }
 
+      /**
+       * 加载立方体fbx文件，自定义材质的对象，生成网格模型
+       */
       var loader2 = new THREE.FBXLoader(); //创建obj模型加载器对象
       loader2.load("1.fbx", obj2); //加载obj完成后执行函数stl()
       //stl加载完成后等待执行的函数
@@ -64,6 +67,9 @@
         scene.add(object3D); //网格模型添加到场景中
       }
 
+      /**
+       * 加载立方体glb文件，自定义材质的对象，生成网格模型
+       */
       var loader3 = new THREE.GLTFLoader(); //创建obj模型加载器对象
       loader3.load("1.glb", obj3); //加载obj完成后执行函数stl()
       //stl加载完成后等待执行的函数
