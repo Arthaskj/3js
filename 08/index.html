@@ -37,6 +37,16 @@
       sphereGeometry.scale(10, 10, 10);
       scene.add(this.sphere);
 
+      setTimeout(() => {
+        sphere.material.map = new THREE.TextureLoader().load("./2.jpg");
+        sphere.material.needsUpdate = true;
+      }, 3000);
+
+      setTimeout(() => {
+        sphere.material.map = texture;
+        sphere.material.needsUpdate = true;
+      }, 6000);
+
       /**
        * 光源设置
        */
